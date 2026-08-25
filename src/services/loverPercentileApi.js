@@ -69,7 +69,7 @@ export async function getQuestions() {
  */
 export async function calculateLoverPercentile({ name1, name2, answers }) {
   try {
-    const response = await fetch('http://localhost:5000/api/calculate', {
+    const response = await fetch('https://lover-percentile-api.onrender.com/api/calculate', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
