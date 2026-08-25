@@ -9,6 +9,7 @@ const QuestionView = ({ name1, name2, onComplete }) => {
   const [answers, setAnswers] = useState([]);
   const [selectedOption, setSelectedOption] = useState(null);
   const [showCompletion, setShowCompletion] = useState(false);
+  const [showIgPrompt, setShowIgPrompt] = useState(false);
   const [fetchError, setFetchError] = useState(false);
   const hasFetched = useRef(false);
   // Stores all 6 answers synchronously to avoid stale closure in handleReveal
@@ -45,8 +46,17 @@ const QuestionView = ({ name1, name2, onComplete }) => {
   }, [answers, selectedOption, currentIndex]);
 
   const handleReveal = useCallback(() => {
-    // Use ref to avoid stale closure — completedAnswersRef always has all 6 answers
-    onComplete(completedAnswersRef.current);
+    setShowIgPrompt(true);
+  }, []);
+
+  const handleIgResponse = useCallback((followed) => {
+    if (!followed) {
+      window.open('https://instagram.com/nikhilpandeyhere', '_blank');
+    }
+    // Small delay to allow the tab to open smoothly if they clicked No
+    setTimeout(() => {
+      onComplete(completedAnswersRef.current);
+    }, 300);
   }, [onComplete]);
 
   // Loading state
@@ -85,6 +95,82 @@ const QuestionView = ({ name1, name2, onComplete }) => {
             Retry
           </button>
         </div>
+      </motion.div>
+    );
+  }
+
+  // Ig Prompt screen
+  if (showIgPrompt) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.6 }}
+        className="question-view"
+      >
+        <div className="glow-bg"></div>
+        <motion.div className="glass-card question-card completion-card">
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
+            style={{ marginBottom: '1.5rem', display: 'flex', justifyContent: 'center' }}
+          >
+            <div style={{ position: 'relative', width: '80px', height: '80px', minWidth: '80px', minHeight: '80px', flexShrink: 0, margin: '0 auto' }}>
+              <img 
+                src="/profile.jpg" 
+                alt="@nikhilpandeyhere" 
+                onError={(e) => { e.target.src = "https://ui-avatars.com/api/?name=Nikhil+Pandey&background=FF2D55&color=fff&size=80" }}
+                style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover', border: '3px solid var(--primary)' }}
+              />
+              <div style={{ position: 'absolute', bottom: '-4px', right: '-4px', width: '28px', height: '28px', borderRadius: '50%', background: 'linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid #000' }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+              </div>
+            </div>
+          </motion.div>
+          
+          <motion.h2
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="completion-title"
+          >
+            Wait! Before we reveal...
+          </motion.h2>
+          
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
+            className="completion-subtitle"
+            style={{ marginBottom: '2rem' }}
+          >
+            Do you follow our developer <strong style={{color: 'var(--primary)'}}>@nikhilpandeyhere</strong> on Instagram?
+          </motion.p>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8 }}
+            style={{ display: 'flex', gap: '1rem', flexDirection: 'column' }}
+          >
+            <button
+              onClick={() => handleIgResponse(true)}
+              className="reveal-btn"
+              style={{ width: '100%', justifyContent: 'center' }}
+            >
+              Yes, I do!
+            </button>
+            <button
+              onClick={() => handleIgResponse(false)}
+              className="question-next-btn"
+              style={{ width: '100%', justifyContent: 'center', backgroundColor: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'var(--text-muted)' }}
+            >
+              No, take me there
+            </button>
+          </motion.div>
+        </motion.div>
       </motion.div>
     );
   }
