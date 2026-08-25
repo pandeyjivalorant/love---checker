@@ -39,8 +39,12 @@ const HomeView = ({ onStart }) => {
 
           <div className="hero-social-proof">
             <div className="avatar-stack">
-              {[1, 2, 3].map(i => (
-                <div key={i} className="avatar-dot" />
+              {[
+                'https://media.istockphoto.com/id/2155152636/photo/young-indian-woman-put-her-hand-on-forehead-to-protect-shields-herself-from-the-sun-girl.jpg?s=2048x2048&w=is&k=20&c=xB1-hAsGbaE8MHsunGKJNc01gTJTyuh7VeUPztnC6Ks=',
+                'https://images.unsplash.com/photo-1622207691293-5cd80466dab3?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                'https://plus.unsplash.com/premium_photo-1691030256264-59cdf9414ed1?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+              ].map((imgUrl, idx) => (
+                <img key={idx} src={imgUrl} alt="user avatar" className="avatar-dot" style={{ objectFit: 'cover' }} />
               ))}
             </div>
             <p>
@@ -95,6 +99,51 @@ const HomeView = ({ onStart }) => {
               <div className="step-number">{item.step}</div>
               <h3 className="step-title">{item.title}</h3>
               <p className="step-desc">{item.desc}</p>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* Feedback Section */}
+      <section id="feedback" className="how-it-works-section" style={{ marginTop: '2rem' }}>
+        <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+          <p className="section-label">User Feedback</p>
+          <h2 className="section-title">
+            Our Feedbacks
+          </h2>
+        </div>
+
+        <div className="steps-grid">
+          {[
+            {
+              name: 'Priya',
+              feedback: '“App ka concept kaafi interesting hai, especially 6 questions wala round. Result reveal hone ka suspense aur percentage wala part kaafi fun laga.”',
+              img: 'https://media.istockphoto.com/id/2155152636/photo/young-indian-woman-put-her-hand-on-forehead-to-protect-shields-herself-from-the-sun-girl.jpg?s=2048x2048&w=is&k=20&c=xB1-hAsGbaE8MHsunGKJNc01gTJTyuh7VeUPztnC6Ks='
+            },
+            {
+              name: 'Rahul',
+              feedback: '“Website ka UI simple, clean aur smooth hai. Har step properly guide karta hai, isliye use karna bahut easy laga.”',
+              img: 'https://images.unsplash.com/photo-1622207691293-5cd80466dab3?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+            },
+            {
+              name: 'Sneha',
+              feedback: '“Result reveal ka experience kaafi engaging hai 😍 Friends ya partner ke saath try karne ke liye perfect little fun app hai.”',
+              img: 'https://plus.unsplash.com/premium_photo-1691030256264-59cdf9414ed1?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+            }
+          ].map((item, idx) => (
+            <motion.div
+              key={idx}
+              className="glass-card"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: idx * 0.2, duration: 0.6 }}
+              whileHover={{ y: -5, borderColor: 'rgba(255,45,85,0.3)' }}
+              style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '2rem' }}
+            >
+              <img src={item.img} alt={item.name} style={{ width: '80px', height: '80px', borderRadius: '50%', objectFit: 'cover', marginBottom: '1rem', border: '2px solid var(--primary)' }} />
+              <h3 style={{ color: '#fff', marginBottom: '0.5rem', fontSize: '1.2rem', fontWeight: '600' }}>{item.name}</h3>
+              <p style={{ color: 'var(--text-muted)', fontStyle: 'italic', lineHeight: '1.6', fontSize: '0.95rem' }}>"{item.feedback}"</p>
             </motion.div>
           ))}
         </div>
