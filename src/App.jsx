@@ -7,7 +7,6 @@ import QuestionView from './components/QuestionView';
 import LoadingView from './components/LoadingView';
 import ResultView from './components/ResultView';
 import Footer from './components/Footer';
-import Scene from './components/3d/Scene';
 import './App.css';
 
 function App() {
@@ -63,8 +62,6 @@ function App() {
 
   return (
     <div className="app-container">
-      {/* 3D Background */}
-      <Scene viewState={view} />
       
       {/* UI Layer */}
       <div className="main-content">
